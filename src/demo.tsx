@@ -152,7 +152,7 @@ const IndexPage: FC = () => {
   const row = (rowData: any, sectionID: string | number, rowID: string | number) => (
     <Item
       arrow="horizontal"
-      thumb={<img src={Logo} style={{ width: '1.5rem', height: '1.5rem' }} />}
+      thumb={<img src={Logo} style={{ width: '150px', height: '150px' }} />}
       multipleLine
       onClick={() => {}}
     >
