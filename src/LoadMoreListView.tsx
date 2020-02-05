@@ -75,8 +75,8 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
     asyncFn,
     {
       ref: containerRef,
-      initPageSize: 3,
-      incrementSize: 4,
+      initPageSize: 10,
+      incrementSize: 10,
     },
   );
   const touchLoadMore = () => {

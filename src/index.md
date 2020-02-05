@@ -31,7 +31,7 @@ const IndexPage: FC = () => {
 export default IndexPage;
 ```
 
-<code src="./pages/index/index.tsx" />
+<code src="./demo.tsx" />
 
 ## API
 
