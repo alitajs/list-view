@@ -1,6 +1,6 @@
 {
   "name": "@alitajs/list-view",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./dist/src",
@@ -20,6 +20,7 @@
     "lint:prettier": "check-prettier lint",
     "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
     "publish": "npm publish --access public",
+    "prepublishOnly": "father-build",
     "prettier": "prettier -c --write \"**/*\"",
     "format-imports": "cross-env import-sort --write '**/*.{js,jsx,ts,tsx}'"
   },

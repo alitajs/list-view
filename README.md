@@ -31,7 +31,7 @@ const IndexPage: FC = () => {
 export default IndexPage;
 ```
 
-![](./src/assets/showgif.gif)
+![](https://github.com/alitajs/list-view/raw/master/src/assets/showgif.gif)
 
 ## API
 
