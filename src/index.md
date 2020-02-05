@@ -31,7 +31,7 @@ const IndexPage: FC = () => {
 export default IndexPage;
 ```
 
-<code src="./pages/index/index.tsx" />
+<code src="./demo.tsx" />
 
 ## API
 
@@ -42,7 +42,7 @@ export default IndexPage;
 | requestFunc | 请求执行函数 | 异步函数 | 无 | 是 |
 | requestParams | 请求参数 | object | {} | 否 |
 | renderRow | 从数据源(data source)中接受一条数据，以及它和它所在 section 的 ID。返回一个可渲染的组件来为这行数据进行渲染。默认情况下参数中的数据就是放进数据源中的数据本身，不过也可以提供一些转换器。如果某一行正在被高亮（通过调用 highlightRow 函数），ListView 会得到相应的通知。 | (rowData, sectionID, rowID, highlightRow) => renderable | 无 | 是 |
-| renderFooter | 重新渲染页脚，会传入三个参数，表示列表页面的当前状态。 | ( noMore: boolean, loadingMore: boolean, loadMore?: () => void,) => React.ReactElement<any> | '' | 否 |
+| renderFooter | 重新渲染页脚，会传入三个参数，表示列表页面的当前状态。 | ( noMore, loadingMore, loadMore?) => React.ReactElement | '' | 否 |
 | 其他 ListView 参数 | 能接收 ListView 的其他参数，请注意不要设置 'onEndReached'、 'pullToRefresh'、 'dataSource' | 无 | 否 |
 
 ### AliasProps
