@@ -49,6 +49,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
   ...otherProps
 }) => {
   const trueAlias = { ...defaultAlias, ...alias };
+
   const asyncFn = ({ pageSize, offset }): Promise<Result> =>
     new Promise(resolve => {
       const reqParams = requestParams;
@@ -79,6 +80,9 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
       incrementSize: 10,
     },
   );
+  useEffect(() => {
+    reload();
+  }, [requestParams]);
   const touchLoadMore = () => {
     if (!noMore) loadMore();
   };
