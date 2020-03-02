@@ -90,7 +90,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
   };
   return (
     <div ref={containerRef}>
-      {!loading && data.length === 0 ? (
+      {data.length === 0 && !loading && noData && (
         <div
           onClick={() => {
             reload();
@@ -98,7 +98,8 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
         >
           {noData}
         </div>
-      ) : (
+      )}
+      <div style={{ display: data.length || loading || !noData ? 'block' : 'none' }}>
         <ListView
           dataSource={dataSet.cloneWithRows(data)}
           renderFooter={() => {
@@ -135,7 +136,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
           onEndReachedThreshold={100}
           {...otherProps}
         />
-      )}
+      </div>
     </div>
   );
 };
