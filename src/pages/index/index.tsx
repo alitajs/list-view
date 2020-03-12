@@ -23,8 +23,8 @@ const IndexPage: FC = () => {
     search,
     abc: '123',
     token: 'alita',
-    pageSize: 0,
-    offset: 0,
+    pageSize: 5,
+    offset: 10,
   };
 
   return (

@@ -1,6 +1,6 @@
 {
   "name": "@alitajs/list-view",
-  "version": "0.0.8",
+  "version": "0.1.1",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./dist/src",
@@ -24,7 +24,13 @@
     "prettier": "prettier -c --write \"**/*\"",
     "format-imports": "cross-env import-sort --write '**/*.{js,jsx,ts,tsx}'"
   },
-  "keywords": ["alita","antd-mobile","umi","useLoadMore","hooks"],
+  "keywords": [
+    "alita",
+    "antd-mobile",
+    "umi",
+    "useLoadMore",
+    "hooks"
+  ],
   "author": "",
   "license": "MIT",
   "gitHooks": {
@@ -40,29 +46,30 @@
     ]
   },
   "devDependencies": {
-    "alita": "^1.5.0",
     "@umijs/fabric": "2.0.0",
+    "alita": "^1.5.0",
     "chalk": "^3.0.0",
     "check-prettier": "^1.0.3",
     "cross-env": "^6.0.3",
     "eslint": "6.8.0",
     "eslint-plugin-eslint-comments": "^3.1.2",
     "father-build": "^1.17.2",
-    "umi-plugin-father-doc":"1.0.0-alpha.18",
     "import-sort-cli": "^6.0.0",
     "import-sort-parser-babylon": "^6.0.0",
     "import-sort-parser-typescript": "^6.0.0",
     "import-sort-style-module": "^6.0.0",
     "lint-staged": "^9.5.0",
     "stylelint": "^12.0.1",
+    "umi-plugin-father-doc": "1.0.0-alpha.18",
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@umijs/hooks": "1.5.4"
+    "@umijs/hooks": "1.5.4",
+    "lodash": "^4.17.15"
   },
   "peerDependencies": {
-    "react": "^16.8.5",
-    "antd-mobile":"^2.3.1"
+    "antd-mobile": "^2.3.1",
+    "react": "^16.8.5"
   },
   "files": [
     "dist"

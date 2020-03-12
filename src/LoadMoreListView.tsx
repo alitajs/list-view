@@ -2,6 +2,7 @@ import React, { FC, useRef, useEffect, useState } from 'react';
 import { PullToRefresh, ListView } from 'antd-mobile';
 import { ListViewProps } from 'antd-mobile/es/list-view';
 import { useLoadMore } from '@umijs/hooks';
+import isEqual from 'lodash/isEqual';
 
 interface Result {
   total: number;
@@ -13,12 +14,14 @@ interface AliasProps {
   pageSize?: string;
   offset?: string;
   total?: string;
+  page?: string;
 }
 
 interface LoadMoreListViewProps
   extends Omit<ListViewProps, 'renderFooter' | 'onEndReached' | 'pullToRefresh' | 'dataSource'> {
   height?: string;
   alias?: AliasProps;
+  container?: any;
   requestFunc: (params: any) => Promise<any>;
   requestParams?: object;
   renderRow: (
@@ -39,6 +42,7 @@ const defaultAlias = {
   pageSize: 'pageSize',
   offset: 'offset',
   total: 'total',
+  page: 'page',
 };
 const LoadMoreListView: FC<LoadMoreListViewProps> = ({
   height,
@@ -46,15 +50,19 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
   requestParams = {},
   alias = {},
   renderFooter,
+  container = '',
   ...otherProps
 }) => {
+  const [preRequestParams, setPreRequestParams] = useState(requestParams);
   const trueAlias = { ...defaultAlias, ...alias };
 
-  const asyncFn = ({ pageSize, offset }): Promise<Result> =>
+  const asyncFn = (abc): Promise<Result> =>
     new Promise(resolve => {
+      const { pageSize, offset, page } = abc;
       const reqParams = requestParams;
       reqParams[trueAlias.pageSize] = pageSize;
       reqParams[trueAlias.offset] = offset;
+      reqParams[trueAlias.page] = page;
       requestFunc(reqParams).then(res => {
         resolve({
           total: res[trueAlias.total],
@@ -74,14 +82,18 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
   }, []);
   const { data, loading, loadingMore, reload, loadMore, noMore } = useLoadMore<Result, any>(
     asyncFn,
+    [container],
     {
       ref: containerRef,
-      initPageSize: 10,
+      initPageSize: requestParams[trueAlias.pageSize],
       incrementSize: 10,
     },
   );
   useEffect(() => {
-    reload();
+    if (!isEqual(preRequestParams, requestParams)) {
+      reload();
+    }
+    setPreRequestParams(requestParams);
   }, [requestParams]);
   const touchLoadMore = () => {
     if (!noMore) loadMore();
