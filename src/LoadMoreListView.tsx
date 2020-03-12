@@ -35,6 +35,7 @@ interface LoadMoreListViewProps
     loadingMore: boolean,
     loadMore?: () => void,
   ) => React.ReactElement<any>;
+  noData?: React.ReactNode | string;
 }
 
 const defaultAlias = {
@@ -51,6 +52,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
   alias = {},
   renderFooter,
   container = '',
+  noData,
   ...otherProps
 }) => {
   const [preRequestParams, setPreRequestParams] = useState(requestParams);
@@ -100,42 +102,53 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
   };
   return (
     <div ref={containerRef}>
-      <ListView
-        dataSource={dataSet.cloneWithRows(data)}
-        renderFooter={() => {
-          if (renderFooter) {
-            return renderFooter(noMore, loadingMore, loadMore);
-          }
-          if (noMore) {
+      {data.length === 0 && !loading && noData && (
+        <div
+          onClick={() => {
+            reload();
+          }}
+        >
+          {noData}
+        </div>
+      )}
+      <div style={{ display: data.length || loading || !noData ? 'block' : 'none' }}>
+        <ListView
+          dataSource={dataSet.cloneWithRows(data)}
+          renderFooter={() => {
+            if (renderFooter) {
+              return renderFooter(noMore, loadingMore, loadMore);
+            }
+            if (noMore) {
+              return (
+                <div style={{ padding: 30, textAlign: 'center' }} onClick={touchLoadMore}>
+                  已全部加载
+                </div>
+              );
+            }
             return (
               <div style={{ padding: 30, textAlign: 'center' }} onClick={touchLoadMore}>
-                已全部加载
+                {loadingMore ? '加载中...' : '加载完成'}
               </div>
             );
+          }}
+          style={{
+            height: height || viewHeight,
+            overflow: 'auto',
+          }}
+          pageSize={10}
+          onEndReached={loadMore}
+          pullToRefresh={
+            <PullToRefresh
+              refreshing={loading}
+              onRefresh={reload}
+              damping={300}
+              distanceToRefresh={50}
+            />
           }
-          return (
-            <div style={{ padding: 30, textAlign: 'center' }} onClick={touchLoadMore}>
-              {loadingMore ? '加载中...' : '加载完成'}
-            </div>
-          );
-        }}
-        style={{
-          height: height || viewHeight,
-          overflow: 'auto',
-        }}
-        pageSize={10}
-        onEndReached={loadMore}
-        pullToRefresh={
-          <PullToRefresh
-            refreshing={loading}
-            onRefresh={reload}
-            damping={300}
-            distanceToRefresh={50}
-          />
-        }
-        onEndReachedThreshold={100}
-        {...otherProps}
-      />
+          onEndReachedThreshold={100}
+          {...otherProps}
+        />
+      </div>
     </div>
   );
 };
