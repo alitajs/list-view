@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useRef } from 'react';
 import { List, SearchBar } from 'antd-mobile';
 import { query } from '@/services/api';
 import LoadMoreListView from '@/LoadMoreListView';
@@ -9,6 +9,7 @@ const { Brief } = Item;
 
 const IndexPage: FC = () => {
   const [search, setSearch] = useState();
+
   const row = (rowData: any, sectionID: string | number, rowID: string | number) => (
     <Item
       arrow="horizontal"
@@ -23,14 +24,26 @@ const IndexPage: FC = () => {
     search,
     abc: '123',
     token: 'alita',
-    pageSize: 5,
+    pageSize: 10,
     offset: 10,
   };
-
+  // 下面加了一个div是为了测试正确获取了距离屏幕的高度
   return (
     <>
       <SearchBar onSubmit={setSearch} onClear={setSearch} />
-      <LoadMoreListView requestFunc={query} renderRow={row} requestParams={req} />
+      <div style={{ position: 'relative' }}>
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+          }}
+        >
+          <LoadMoreListView requestFunc={query} renderRow={row} requestParams={req} />
+        </div>
+      </div>
     </>
   );
 };

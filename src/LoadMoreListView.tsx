@@ -2,7 +2,17 @@ import React, { FC, useRef, useEffect, useState } from 'react';
 import { PullToRefresh, ListView } from 'antd-mobile';
 import { ListViewProps } from 'antd-mobile/es/list-view';
 import { useLoadMore } from '@umijs/hooks';
-import isEqual from 'lodash/isEqual';
+
+const ONE_REM = parseInt(document.documentElement.style.fontSize, 10) || 100;
+const SCALE = ONE_REM / 100;
+/**
+ * 像素转换
+ * @param {Number} px - 750视觉稿像素
+ * @return {Number} 屏幕上实际像素
+ */
+export function px2hd(px: number) {
+  return Number((px * SCALE).toFixed(1));
+}
 
 interface Result {
   total: number;
@@ -20,6 +30,7 @@ interface AliasProps {
 interface LoadMoreListViewProps
   extends Omit<ListViewProps, 'renderFooter' | 'onEndReached' | 'pullToRefresh' | 'dataSource'> {
   height?: string;
+  isTabsPage?: boolean;
   alias?: AliasProps;
   container?: any;
   requestFunc: (params: any) => Promise<any>;
@@ -53,9 +64,10 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
   renderFooter,
   container = '',
   noData,
+  isTabsPage = false,
   ...otherProps
 }) => {
-  const [preRequestParams, setPreRequestParams] = useState(requestParams);
+  // const [preRequestParams, setPreRequestParams] = useState(requestParams);
   const trueAlias = { ...defaultAlias, ...alias };
 
   const asyncFn = (abc): Promise<Result> =>
@@ -80,7 +92,8 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
     }),
   );
   useEffect(() => {
-    setViewHeight(viewHeight - containerRef.current.offsetTop);
+    const offsetTop = containerRef.current.getBoundingClientRect().top;
+    setViewHeight(viewHeight - offsetTop - px2hd(isTabsPage ? 100 : 0));
   }, []);
   const { data, loading, loadingMore, reload, loadMore, noMore } = useLoadMore<Result, any>(
     asyncFn,
@@ -91,17 +104,11 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
       incrementSize: 10,
     },
   );
-  useEffect(() => {
-    if (!isEqual(preRequestParams, requestParams)) {
-      reload();
-    }
-    setPreRequestParams(requestParams);
-  }, [requestParams]);
   const touchLoadMore = () => {
     if (!noMore) loadMore();
   };
   return (
-    <div ref={containerRef}>
+    <div>
       {data.length === 0 && !loading && noData && (
         <div
           onClick={() => {
@@ -111,7 +118,10 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
           {noData}
         </div>
       )}
-      <div style={{ display: data.length || loading || !noData ? 'block' : 'none' }}>
+      <div
+        style={{ display: data.length || loading || !noData ? 'block' : 'none' }}
+        ref={containerRef}
+      >
         <ListView
           dataSource={dataSet.cloneWithRows(data)}
           renderFooter={() => {
