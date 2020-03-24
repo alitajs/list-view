@@ -25,7 +25,7 @@ const IndexPage: FC = () => {
     abc: '123',
     token: 'alita',
     pageSize: 10,
-    offset: 10,
+    // offset: 10,
   };
   // 下面加了一个div是为了测试正确获取了距离屏幕的高度
   return (
@@ -41,7 +41,14 @@ const IndexPage: FC = () => {
             bottom: 0,
           }}
         >
-          <LoadMoreListView requestFunc={query} renderRow={row} requestParams={req} />
+          <LoadMoreListView
+            requestFunc={query}
+            renderRow={row}
+            requestParams={req}
+            alias={{
+              offset: 'abc',
+            }}
+          />
         </div>
       </div>
     </>

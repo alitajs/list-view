@@ -73,10 +73,17 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
   const asyncFn = (abc): Promise<Result> =>
     new Promise(resolve => {
       const { pageSize, offset, page } = abc;
-      const reqParams = requestParams;
-      reqParams[trueAlias.pageSize] = pageSize;
-      reqParams[trueAlias.offset] = offset;
-      reqParams[trueAlias.page] = page;
+      const reqParams = requestParams as any;
+      if (reqParams.pageSize || alias.pageSize) {
+        reqParams[trueAlias.pageSize] = pageSize;
+      }
+      if (reqParams.offset || alias.offset) {
+        reqParams[trueAlias.offset] = offset;
+      }
+      if (reqParams.page || alias.page) {
+        reqParams[trueAlias.page] = page;
+      }
+
       requestFunc(reqParams).then(res => {
         resolve({
           total: res[trueAlias.total],
@@ -86,6 +93,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
     });
   const containerRef = useRef<HTMLDivElement>(null);
   const [viewHeight, setViewHeight] = useState(document.documentElement.clientHeight);
+  const [isInit, setIsInit] = useState(false);
   const [dataSet] = useState(
     new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
@@ -94,7 +102,9 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
   useEffect(() => {
     const offsetTop = containerRef.current.getBoundingClientRect().top;
     setViewHeight(viewHeight - offsetTop - px2hd(isTabsPage ? 100 : 0));
+    setIsInit(true);
   }, []);
+
   const { data, loading, loadingMore, reload, loadMore, noMore } = useLoadMore<Result, any>(
     asyncFn,
     [container],
@@ -122,42 +132,47 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = ({
         style={{ display: data.length || loading || !noData ? 'block' : 'none' }}
         ref={containerRef}
       >
-        <ListView
-          dataSource={dataSet.cloneWithRows(data)}
-          renderFooter={() => {
-            if (renderFooter) {
-              return renderFooter(noMore, loadingMore, loadMore);
-            }
-            if (noMore) {
+        {isInit && (
+          <ListView
+            dataSource={dataSet.cloneWithRows(data)}
+            renderFooter={() => {
+              if (renderFooter) {
+                return renderFooter(noMore, loadingMore, loadMore);
+              }
+              if (noMore) {
+                return (
+                  <div style={{ padding: 30, textAlign: 'center' }} onClick={touchLoadMore}>
+                    已全部加载
+                  </div>
+                );
+              }
               return (
-                <div style={{ padding: 30, textAlign: 'center' }} onClick={touchLoadMore}>
-                  已全部加载
+                <div
+                  style={{ display: !loading ? 'block' : 'none', padding: 30, textAlign: 'center' }}
+                  onClick={touchLoadMore}
+                >
+                  {loadingMore ? '加载中...' : '加载完成'}
                 </div>
               );
+            }}
+            style={{
+              height: height || viewHeight,
+              overflow: 'auto',
+            }}
+            pageSize={10}
+            onEndReached={loadMore}
+            pullToRefresh={
+              <PullToRefresh
+                refreshing={loading}
+                onRefresh={reload}
+                damping={300}
+                distanceToRefresh={50}
+              />
             }
-            return (
-              <div style={{ padding: 30, textAlign: 'center' }} onClick={touchLoadMore}>
-                {loadingMore ? '加载中...' : '加载完成'}
-              </div>
-            );
-          }}
-          style={{
-            height: height || viewHeight,
-            overflow: 'auto',
-          }}
-          pageSize={10}
-          onEndReached={loadMore}
-          pullToRefresh={
-            <PullToRefresh
-              refreshing={loading}
-              onRefresh={reload}
-              damping={300}
-              distanceToRefresh={50}
-            />
-          }
-          onEndReachedThreshold={100}
-          {...otherProps}
-        />
+            onEndReachedThreshold={100}
+            {...otherProps}
+          />
+        )}
       </div>
     </div>
   );
