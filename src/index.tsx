@@ -1,5 +1,5 @@
-import LoadMoreListView from './LoadMoreListView';
-import CartListView from './CartListView';
+import LoadMoreListView, { LoadMoreListAttributes } from './LoadMoreListView';
+import CartListView, { CartListAttributes } from './CartListView';
 
-export { CartListView };
+export { CartListView, LoadMoreListAttributes, CartListAttributes };
 export default LoadMoreListView;

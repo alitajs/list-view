@@ -49,7 +49,7 @@ const CartListView: FC<CartListViewProps> = forwardRef((props, ref) => {
         data.forEach(item => add(item));
       }
     },
-    getSelectAll: state,
+    getSelectAll: () => state,
     selectItem: (item: any) => {
       add(item);
       toggle(data.length === Array.from(set).length + 1);
