@@ -87,10 +87,10 @@ export default {
     ];
     const { body } = req;
 
-    const { pageSize, offset } = body;
+    const { pageSize, page } = body;
     return res.json({
       total: dataSource.length,
-      data: dataSource.slice(offset, offset + pageSize),
+      data: dataSource.slice(0, page * pageSize),
     });
   },
 };
