@@ -1,8 +1,10 @@
-import React, { FC, useState, useRef, useEffect } from 'react';
+import React, { FC, useState, useRef } from 'react';
 import { List, SearchBar, Button } from 'antd-mobile';
 import { query } from '@/services/api';
 import Logo from '@/assets/logo.png';
 import CartListView, { CartListAttributes } from '@/CartListView';
+import SelectIcon from '@/assets/select.png';
+import UnSelectIcon from '@/assets/unSelect.png';
 
 const { Item } = List;
 
@@ -17,20 +19,38 @@ const IndexPage: FC = () => {
     selectItem: (key: any) => void,
     unSelectItem: (key: any) => void,
   ) => (
-    <Item
-      arrow="horizontal"
-      thumb={<img src={Logo} style={{ width: '1.5rem', height: '1.5rem' }} />}
-      multipleLine
-      onClick={() => {
-        if (isSelected) {
-          unSelectItem(rowData);
-        } else {
-          selectItem(rowData);
-        }
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
-      {isSelected ? '已选中' : '未选中'}
-    </Item>
+      <img
+        src={isSelected ? SelectIcon : UnSelectIcon}
+        style={{
+          marginLeft: '0.3rem',
+          height: '0.5rem',
+          width: '0.5rem',
+        }}
+        onClick={() => {
+          if (isSelected) {
+            unSelectItem(rowData);
+          } else {
+            selectItem(rowData);
+          }
+        }}
+      />
+      <Item
+        arrow="horizontal"
+        thumb={<img src={Logo} style={{ width: '1.5rem', height: '1.5rem' }} />}
+        multipleLine
+        style={{
+          flex: '1',
+        }}
+      >
+        {isSelected ? '已选中' : '未选中'}
+      </Item>
+    </div>
   );
   const req = {
     search,
@@ -44,21 +64,6 @@ const IndexPage: FC = () => {
   return (
     <>
       <SearchBar onSubmit={setSearch} onClear={setSearch} />
-      <Button
-        onClick={() => {
-          cartList.current.toggleAll();
-        }}
-      >
-        {selectAll ? '已全选' : '未全选'}
-      </Button>
-      <Button
-        onClick={() => {
-          const selectData = cartList.current.getSelectDate();
-          console.log(selectData);
-        }}
-      >
-        提交
-      </Button>
       <CartListView
         ref={cartList}
         requestFunc={query}
@@ -67,10 +72,60 @@ const IndexPage: FC = () => {
         onSelectChange={(selectData: any, isSelectAll: boolean) => {
           setSelectAll(isSelectAll);
         }}
+        // height={400}
+        isTabsPage
         alias={{
           offset: 'abc',
         }}
       />
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          height: '1rem',
+          background: '#fff',
+          position: 'fixed',
+          width: '100%',
+          bottom: 0,
+          borderTop: '1px solid #ddd',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src={selectAll ? SelectIcon : UnSelectIcon}
+            alt=""
+            style={{
+              marginLeft: '0.3rem',
+              height: '0.5rem',
+              width: '0.5rem',
+            }}
+            onClick={() => {
+              cartList.current.toggleAll();
+            }}
+          />
+          <h3 style={{ paddingLeft: '0.2rem' }}>全选</h3>
+        </div>
+        <div
+          style={{
+            height: '80%',
+            width: '2rem',
+            background: '#1890ff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0.3rem',
+            borderRadius: '0.5rem',
+            color: '#fff',
+          }}
+          onClick={() => {
+            const selectData = cartList.current.getSelectDate();
+            console.log(selectData);
+          }}
+        >
+          <h4>提交</h4>
+        </div>
+      </div>
     </>
   );
 };
