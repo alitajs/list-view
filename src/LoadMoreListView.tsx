@@ -125,7 +125,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
       {
         ref: containerRef,
         initPageSize: requestParams[trueAlias.pageSize],
-        incrementSize: 10,
+        incrementSize: requestParams[trueAlias.pageSize],
       },
     );
     useImperativeHandle(ref, () => ({
