@@ -19,7 +19,7 @@
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "allowJs": true,
+    // "allowJs": true,
     // "strict": true,
     "paths": {
       "@/*": ["./src/*"]

@@ -5,12 +5,13 @@ export default {
   cjs: {
     type: 'rollup',
   },
-  umd: {
-    name: 'LoadMoreListView',
-    globals: {
-      react: 'React',
-    },
-  },
+  // umd: {
+  //   name: 'LoadMoreListView',
+  //   globals: {
+  //     react: 'React',
+
+  //   },
+  // },
   disableTypeCheck: true,
   // namedExports: {
   //   'react-is': [

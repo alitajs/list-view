@@ -24,7 +24,7 @@ const IndexPage: FC = () => {
     search,
     abc: '123',
     token: 'alita',
-    pageSize: 20,
+    pagesize: 10,
     page: 1,
   };
   // 下面加了一个div是为了测试正确获取了距离屏幕的高度
@@ -55,6 +55,7 @@ const IndexPage: FC = () => {
             requestParams={req}
             alias={{
               offset: 'abc',
+              pageSize: 'pagesize',
             }}
           />
         </div>

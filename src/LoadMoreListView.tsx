@@ -76,12 +76,20 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
       noData,
       isTabsPage = false,
       onChange = () => {},
+      initialListSize,
       ...otherProps
     },
     ref,
   ) => {
     // const [preRequestParams, setPreRequestParams] = useState(requestParams);
     const trueAlias = { ...defaultAlias, ...alias };
+
+    const getInitialListSize = () => {
+      if (initialListSize) {
+        return initialListSize;
+      }
+      return requestParams[trueAlias.pageSize] || 25;
+    };
 
     const asyncFn = (abc): Promise<Result> =>
       new Promise(resolve => {
@@ -155,6 +163,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
         >
           {isInit && (
             <ListView
+              initialListSize={getInitialListSize()}
               dataSource={dataSet.cloneWithRows(data)}
               renderFooter={() => {
                 if (renderFooter) {
