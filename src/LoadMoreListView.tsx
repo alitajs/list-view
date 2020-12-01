@@ -81,7 +81,6 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
     },
     ref,
   ) => {
-    // const [preRequestParams, setPreRequestParams] = useState(requestParams);
     const trueAlias = { ...defaultAlias, ...alias };
 
     const getInitialListSize = () => {
@@ -146,6 +145,8 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
       onChange(data);
     }, [data]);
 
+    console.log(data.length === 0, !loading, noData);
+
     return (
       <div>
         {data.length === 0 && !loading && noData && (
@@ -194,11 +195,17 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
                 overflow: 'auto',
               }}
               pageSize={10}
-              onEndReached={loadMore}
+              onEndReached={() => {
+                if (!loading) {
+                  loadMore();
+                }
+              }}
               pullToRefresh={
                 <PullToRefresh
                   refreshing={loading}
-                  onRefresh={reload}
+                  onRefresh={() => {
+                    reload();
+                  }}
                   damping={300}
                   distanceToRefresh={50}
                 />

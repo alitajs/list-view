@@ -484,9 +484,13 @@ export default {
     const { body } = req;
 
     const { pagesize, page } = body;
-    return res.json({
-      total: dataSource.length,
-      data: dataSource.slice(0, page * pagesize),
-    });
+    setTimeout(() => {
+      res.end(
+        JSON.stringify({
+          total: dataSource.length,
+          data: dataSource.slice(0, page * pagesize),
+        }),
+      );
+    }, 3000);
   },
 };
