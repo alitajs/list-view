@@ -145,8 +145,6 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
       onChange(data);
     }, [data]);
 
-    console.log(data.length === 0, !loading, noData);
-
     return (
       <div>
         {data.length === 0 && !loading && noData && (
