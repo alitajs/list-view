@@ -33,10 +33,7 @@ const CartListView: FC<CartListViewProps> = forwardRef((props, ref) => {
   const [set, { add, has, remove, reset }] = useSet([]);
   const { state, toggle } = useToggle(false);
   useEffect(() => {
-    onSelectChange(
-      data.filter(item => has(item)),
-      state,
-    );
+    onSelectChange(data.filter(item => has(item)), state);
   }, [set]);
   const loadMoreList = useRef<LoadMoreListAttributes>(null);
   useImperativeHandle(ref, () => ({

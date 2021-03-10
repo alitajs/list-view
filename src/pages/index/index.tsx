@@ -24,7 +24,7 @@ const IndexPage: FC = () => {
     search,
     abc: '123',
     token: 'alita',
-    pagesize: 10,
+    pagesize: 2,
     page: 1,
   };
   // 下面加了一个div是为了测试正确获取了距离屏幕的高度
@@ -49,6 +49,8 @@ const IndexPage: FC = () => {
           }}
         >
           <LoadMoreListView
+            // autoFullViewPort
+            initialListSize={25}
             ref={loadMoreList}
             requestFunc={query}
             renderRow={row}

@@ -1,5 +1,5 @@
 import React, { FC, useState, useImperativeHandle, forwardRef, useEffect, useRef } from 'react';
-
+import ReactDOM from 'react-dom';
 import { PullToRefresh, ListView } from 'antd-mobile';
 import { ListViewProps } from 'antd-mobile/es/list-view';
 import { useLoadMore } from '@umijs/hooks';
@@ -42,6 +42,7 @@ export interface LoadMoreListViewProps
   container?: any;
   requestFunc: (params: any) => Promise<any>;
   requestParams?: object;
+  autoFullViewPort?: boolean;
   renderRow: (
     rowData: any,
     sectionID: string | number,
@@ -77,6 +78,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
       isTabsPage = false,
       onChange = () => {},
       initialListSize,
+      autoFullViewPort = false,
       ...otherProps
     },
     ref,
@@ -112,6 +114,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
         });
       });
     const containerRef = useRef<HTMLDivElement>(null);
+    const listViewRef = useRef(null);
     const [viewHeight, setViewHeight] = useState(document.documentElement.clientHeight);
     const [isInit, setIsInit] = useState(false);
     const [dataSet] = useState(
@@ -143,10 +146,17 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
     };
     useEffect(() => {
       onChange(data);
+      // 解决ListView初始化数据未占满屏幕无法下拉刷新问题: https://github.com/ant-design/ant-design-mobile/issues/3553
+      if (listViewRef.current && autoFullViewPort) {
+        const containerDom = containerRef.current;
+        const listViewDom = listViewRef.current.getInnerViewNode();
+        if (containerDom.clientHeight >= listViewDom.scrollHeight) {
+          loadMore();
+        }
+      }
     }, [data]);
-
     return (
-      <div>
+      <div ref={containerRef}>
         {data.length === 0 && !loading && noData && (
           <div
             onClick={() => {
@@ -156,12 +166,10 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
             {noData}
           </div>
         )}
-        <div
-          style={{ display: data.length || loading || !noData ? 'block' : 'none' }}
-          ref={containerRef}
-        >
+        <div style={{ display: data.length || loading || !noData ? 'block' : 'none' }}>
           {isInit && (
             <ListView
+              ref={listViewRef}
               initialListSize={getInitialListSize()}
               dataSource={dataSet.cloneWithRows(data)}
               renderFooter={() => {
