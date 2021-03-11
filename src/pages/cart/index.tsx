@@ -2,7 +2,7 @@ import React, { FC, useState, useRef } from 'react';
 import { List, SearchBar, Button } from 'antd-mobile';
 import { query } from '@/services/api';
 import Logo from '@/assets/logo.png';
-import CartListView, { CartListAttributes } from '@/CartListView';
+import CartListView, { CartListAttributes } from '@/LoadMore/CartListView';
 import SelectIcon from '@/assets/select.png';
 import UnSelectIcon from '@/assets/unSelect.png';
 
@@ -18,45 +18,48 @@ const IndexPage: FC = () => {
     isSelected: boolean,
     selectItem: (key: any) => void,
     unSelectItem: (key: any) => void,
-  ) => (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      <img
-        src={isSelected ? SelectIcon : UnSelectIcon}
+  ) => {
+    return (
+      <div
         style={{
-          marginLeft: '0.3rem',
-          height: '0.5rem',
-          width: '0.5rem',
-        }}
-        onClick={() => {
-          if (isSelected) {
-            unSelectItem(rowData);
-          } else {
-            selectItem(rowData);
-          }
-        }}
-      />
-      <Item
-        arrow="horizontal"
-        thumb={<img src={Logo} style={{ width: '1.5rem', height: '1.5rem' }} />}
-        multipleLine
-        style={{
-          flex: '1',
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
-        {isSelected ? '已选中' : '未选中'}
-      </Item>
-    </div>
-  );
+        <img
+          src={isSelected ? SelectIcon : UnSelectIcon}
+          style={{
+            marginLeft: '0.3rem',
+            height: '0.5rem',
+            width: '0.5rem',
+          }}
+          onClick={() => {
+            if (isSelected) {
+              unSelectItem(rowData);
+            } else {
+              selectItem(rowData);
+            }
+          }}
+        />
+        <Item
+          arrow="horizontal"
+          thumb={<img src={Logo} style={{ width: '1.5rem', height: '1.5rem' }} />}
+          multipleLine
+          style={{
+            flex: '1',
+          }}
+        >
+          {isSelected ? '已选中' : '未选中'}
+        </Item>
+      </div>
+    );
+  };
+
   const req = {
     search,
     abc: '123',
     token: 'alita',
-    pageSize: 10,
+    pagesize: 20,
     page: 1,
   };
 
@@ -76,6 +79,9 @@ const IndexPage: FC = () => {
         isTabsPage
         alias={{
           offset: 'abc',
+          pageSize: 'pagesize',
+          page: 'pageNum',
+          data: 'data',
         }}
       />
       <div

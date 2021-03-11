@@ -138,6 +138,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
         incrementSize: requestParams[trueAlias.pageSize],
       },
     );
+    console.log(data);
     useImperativeHandle(ref, () => ({
       reloadDataSource: reload,
     }));
