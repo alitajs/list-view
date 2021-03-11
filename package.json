@@ -23,7 +23,9 @@
         "prepublishOnly": "father-build",
         "prettier": "prettier -c --write \"**/*\"",
         "format-imports": "cross-env import-sort --write '**/*.{js,jsx,ts,tsx}'",
-        "pub-beta": "node ./scripts/beta.js npm publish --tag=beta"
+        "beta-version": "node ./scripts/beta.js",
+        "beta": "npm publish --tag=beta",
+        "pub-beta": "npm run beta-version && npm run build-dom && npm run beta"
     },
     "keywords": [
         "alita",
@@ -65,7 +67,6 @@
         "yorkie": "^2.0.0"
     },
     "dependencies": {
-        "@umijs/hooks": "^1.9.3",
         "ahooks": "^2.9.6",
         "lodash": "^4.17.15"
     },

@@ -49,17 +49,15 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
   const trueAlias = getAliasWithPropsAlias(alias);
 
   const requestResult = useRequest(
-    () => {
-      console.log(statusRef.current);
-      return asyncFn(requestFunc, requestParams, alias, statusRef.current, startPage);
-    },
+    () => asyncFn(requestFunc, requestParams, alias, statusRef.current, startPage),
     {
       loadMore: true,
       ref: containerRef,
       threshold: HTRESHOLD,
-      formatResult: d => {
-        return { list: d['data'], total: d['total'] };
-      },
+      formatResult: d => ({
+        total: d[trueAlias.total],
+        list: d[trueAlias.data],
+      }),
       isNoMore: d => (d ? d.list.length >= d.total : false),
     },
   );
@@ -112,9 +110,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
     setState({ isInitial: false });
   }, [JSON.stringify(list)]);
 
-  const showNoData = () => {
-    return !loading && list.length === 0 && !!noData;
-  };
+  const showNoData = () => !loading && list.length === 0 && !!noData;
 
   return (
     <>
@@ -127,7 +123,8 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
           renderFooter={() => {
             if (renderFooter) {
               return renderFooter(noMore, loadingMore, loadMore);
-            } else if (loading) {
+            }
+            if (loading) {
               return <></>;
             }
             return noMore ? (

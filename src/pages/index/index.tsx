@@ -1,7 +1,7 @@
 import React, { FC, useState, useRef } from 'react';
 import { List, SearchBar, Button } from 'antd-mobile';
 import { query } from '@/services/api';
-import LoadMoreListView, { LoadMoreListAttributes } from '@/LoadMoreListView';
+import LoadMoreListView, { LoadMoreListAttributes } from '@/index';
 import Logo from '@/assets/logo.png';
 
 const { Item } = List;

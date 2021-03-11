@@ -48,7 +48,6 @@ export const getParamsWithAlias = (
       reqParams[trueAlias.page] = startPage;
     }
   }
-  console.log(reqParams, 'reqParams');
   return reqParams;
 };
 
@@ -60,13 +59,7 @@ export const asyncFn = (
   startPage = 1,
 ): Promise<Result> => {
   const reqParams = getParamsWithAlias(requestParams, alias, status, startPage);
-  const trueAlias = getAliasWithPropsAlias(alias);
-  return requestFunc(reqParams).then(res => {
-    return {
-      total: res[trueAlias.total],
-      data: res[trueAlias.data],
-    };
-  });
+  return requestFunc(reqParams);
 };
 
 export const getInitialListSize = (pageSize, initialListSize) => {
