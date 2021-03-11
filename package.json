@@ -35,6 +35,7 @@
     "author": "",
     "license": "MIT",
     "gitHooks": {
+        "pre-commit": "lint-staged",
         "commit-msg": "node scripts/verifyCommit.js"
     },
     "lint-staged": {
