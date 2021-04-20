@@ -156,9 +156,10 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
       }
     }, [data]);
     return (
-      <div ref={containerRef}>
+      <div ref={containerRef} className="alita-listview">
         {data.length === 0 && !loading && noData && (
           <div
+            className="alita-empty"
             onClick={() => {
               reload();
             }}
@@ -166,7 +167,10 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
             {noData}
           </div>
         )}
-        <div style={{ display: data.length || loading || !noData ? 'block' : 'none' }}>
+        <div
+          className="alita-listview-content"
+          style={{ display: data.length || loading || !noData ? 'block' : 'none' }}
+        >
           {isInit && (
             <ListView
               ref={listViewRef}
