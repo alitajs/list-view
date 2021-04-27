@@ -1,77 +1,82 @@
 {
-  "name": "@alitajs/list-view",
-  "version": "0.3.7",
-  "description": "",
-  "main": "./dist/index.js",
-  "typings": "./dist/src",
-  "module": "./dist/index.esm.js",
-  "unpkg": "./dist/index.umd.js",
-  "scripts": {
-    "start": "alita dev",
-    "start-doc": "cross-env CUSTOM_DEV=true alita dev",
-    "build-doc": "cross-env CUSTOM_DEV=true alita build",
-    "build": "alita build",
-    "build-dom": "father-build",
-    "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",
-    "lint-staged": "lint-staged",
-    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
-    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src && npm run lint:style",
-    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
-    "lint:prettier": "check-prettier lint",
-    "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
-    "publish": "npm publish --access public",
-    "prepublishOnly": "father-build",
-    "prettier": "prettier -c --write \"**/*\"",
-    "format-imports": "cross-env import-sort --write '**/*.{js,jsx,ts,tsx}'"
-  },
-  "keywords": [
-    "alita",
-    "antd-mobile",
-    "umi",
-    "useLoadMore",
-    "hooks"
-  ],
-  "author": "",
-  "license": "MIT",
-  "gitHooks": {
-    "pre-commit": "lint-staged",
-    "commit-msg": "node scripts/verifyCommit.js"
-  },
-  "lint-staged": {
-    "**/*.less": "stylelint --syntax less",
-    "**/*.{js,jsx}": "npm run lint-staged:js",
-    "**/*.{js,ts,tsx,json,jsx,less}": [
-      "npm run prettier",
-      "git add"
+    "name": "@alitajs/list-view",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./dist/index.js",
+    "typings": "./dist/src",
+    "module": "./dist/index.esm.js",
+    "unpkg": "./dist/index.umd.js",
+    "scripts": {
+        "start": "alita dev",
+        "start-doc": "cross-env CUSTOM_DEV=true alita dev",
+        "build-doc": "cross-env CUSTOM_DEV=true alita build",
+        "build": "alita build",
+        "build-dom": "father-build",
+        "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",
+        "lint-staged": "lint-staged",
+        "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+        "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src && npm run lint:style",
+        "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+        "lint:prettier": "check-prettier lint",
+        "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
+        "publish": "npm publish --access public",
+        "prepublishOnly": "father-build",
+        "prettier": "prettier -c --write \"**/*\"",
+        "format-imports": "cross-env import-sort --write '**/*.{js,jsx,ts,tsx}'",
+        "beta-version": "node ./scripts/beta.js",
+        "beta": "npm publish --tag=beta",
+        "pub-beta": "npm run beta-version && npm run build-dom && npm run beta"
+    },
+    "keywords": [
+        "alita",
+        "antd-mobile",
+        "umi",
+        "useLoadMore",
+        "hooks"
+    ],
+    "author": "",
+    "license": "MIT",
+    "gitHooks": {
+        "pre-commit": "lint-staged",
+        "commit-msg": "node scripts/verifyCommit.js"
+    },
+    "lint-staged": {
+        "**/*.less": "stylelint --syntax less",
+        "**/*.{js,jsx}": "npm run lint-staged:js",
+        "**/*.{js,ts,tsx,json,jsx,less}": [
+            "npm run prettier",
+            "git add"
+        ]
+    },
+    "devDependencies": {
+        "@umijs/fabric": "2.0.0",
+        "alita": "^1.5.0",
+        "chalk": "^3.0.0",
+        "check-prettier": "^1.0.3",
+        "cross-env": "^6.0.3",
+        "eslint": "6.8.0",
+        "eslint-plugin-eslint-comments": "^3.1.2",
+        "father-build": "^1.18.6",
+        "import-sort-cli": "^6.0.0",
+        "import-sort-parser-babylon": "^6.0.0",
+        "import-sort-parser-typescript": "^6.0.0",
+        "import-sort-style-module": "^6.0.0",
+        "lint-staged": "^9.5.0",
+        "stylelint": "^12.0.1",
+        "umi-plugin-father-doc": "1.0.0-alpha.18",
+        "yorkie": "^2.0.0",
+        "@babel/helper-compilation-targets": "^7.13.16",
+        "@babel/plugin-syntax-class-properties": "^7.12.13"
+    },
+    "dependencies": {
+        "ahooks": "^2.9.6",
+        "lodash": "^4.17.15"
+    },
+    "peerDependencies": {
+        "antd-mobile": "^2.3.1",
+        "react": "^16.8.5"
+    },
+    "files": [
+        "dist"
     ]
-  },
-  "devDependencies": {
-    "@umijs/fabric": "2.0.0",
-    "alita": "^1.5.0",
-    "chalk": "^3.0.0",
-    "check-prettier": "^1.0.3",
-    "cross-env": "^6.0.3",
-    "eslint": "6.8.0",
-    "eslint-plugin-eslint-comments": "^3.1.2",
-    "father-build": "^1.18.6",
-    "import-sort-cli": "^6.0.0",
-    "import-sort-parser-babylon": "^6.0.0",
-    "import-sort-parser-typescript": "^6.0.0",
-    "import-sort-style-module": "^6.0.0",
-    "lint-staged": "^9.5.0",
-    "stylelint": "^12.0.1",
-    "umi-plugin-father-doc": "1.0.0-alpha.18",
-    "yorkie": "^2.0.0"
-  },
-  "dependencies": {
-    "@umijs/hooks": "^1.9.3",
-    "lodash": "^4.17.15"
-  },
-  "peerDependencies": {
-    "antd-mobile": "^2.3.1",
-    "react": "^16.8.5"
-  },
-  "files": [
-    "dist"
-  ]
 }

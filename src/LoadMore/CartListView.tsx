@@ -1,9 +1,7 @@
 import React, { FC, useState, useImperativeHandle, forwardRef, useRef, useEffect } from 'react';
-import { useSet, useToggle } from '@umijs/hooks';
-import LoadMoreListView, {
-  LoadMoreListViewProps,
-  LoadMoreListAttributes,
-} from './LoadMoreListView';
+import { useSet, useToggle } from 'ahooks';
+import LoadMoreListView from './index';
+import { LoadMoreListViewProps, LoadMoreListAttributes } from './PropType';
 
 export interface CartListAttributes {
   toggleAll: () => void;
@@ -31,9 +29,12 @@ const CartListView: FC<CartListViewProps> = forwardRef((props, ref) => {
   const { renderCartRow, onChange = () => {}, onSelectChange = (a, b) => {}, ...other } = props;
   const [data, setData] = useState([]);
   const [set, { add, has, remove, reset }] = useSet([]);
-  const { state, toggle } = useToggle(false);
+  const [state, { toggle }] = useToggle(false);
   useEffect(() => {
-    onSelectChange(data.filter(item => has(item)), state);
+    onSelectChange(
+      data.filter(item => has(item)),
+      state,
+    );
   }, [set]);
   const loadMoreList = useRef<LoadMoreListAttributes>(null);
   useImperativeHandle(ref, () => ({

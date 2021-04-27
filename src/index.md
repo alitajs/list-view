@@ -1,6 +1,6 @@
 # @alitajs/list-view
 
-移动端的加载更多页面封装，简化业务流程。使用了 `@umijs/hooks` 的 `useLoadMore`。
+移动端的加载更多页面封装，简化业务流程。使用了 `ahooks` 的 `useLoadMore`。
 
 ## 最简 Demo
 

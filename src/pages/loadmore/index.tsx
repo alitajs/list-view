@@ -1,7 +1,8 @@
 import React, { FC, useState, useRef } from 'react';
 import { List, SearchBar, Button } from 'antd-mobile';
-import { query } from '@/services/api';
-import LoadMoreListView, { LoadMoreListAttributes } from '@/index';
+import { loadmore } from '@/services/api';
+import LoadMoreListView from '@/LoadMore';
+import { LoadMoreListAttributes } from '@/LoadMore/PropType';
 import Logo from '@/assets/logo.png';
 
 const { Item } = List;
@@ -24,8 +25,12 @@ const IndexPage: FC = () => {
     search,
     abc: '123',
     token: 'alita',
-    pagesize: 2,
-    page: 1,
+    pagesize: 4,
+    pageNum: 1,
+    objectKey: {
+      a: 'pass',
+      b: 'userName',
+    },
   };
   // 下面加了一个div是为了测试正确获取了距离屏幕的高度
   return (
@@ -49,15 +54,19 @@ const IndexPage: FC = () => {
           }}
         >
           <LoadMoreListView
-            // autoFullViewPort
+            autoFullViewPort
             initialListSize={25}
             ref={loadMoreList}
-            requestFunc={query}
+            requestFunc={loadmore}
             renderRow={row}
             requestParams={req}
+            startPage={10}
             alias={{
               offset: 'abc',
               pageSize: 'pagesize',
+              page: 'pageNum',
+              data: 'a',
+              total: 't',
             }}
             noData={<div style={{ height: '100px', backgroundColor: '#f40' }}>123456</div>}
           />
