@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import styles from './index.less';
+import './index.less';
 
 interface ListMoreLoadingProps {}
 
 const ListMoreLoading: FC<ListMoreLoadingProps> = ({}) => {
-  return <div className={styles.loading}>正在刷新</div>;
+  return <div className="loading">正在刷新</div>;
 };
 
 export default ListMoreLoading;

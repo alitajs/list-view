@@ -11,7 +11,7 @@ import { ListViewNoData, ListViewLoadMore, ListMoreLoading } from './components'
 import { LoadMoreListViewProps } from './PropType';
 import { PullToRefresh, ListView } from 'antd-mobile';
 import { useRequest, useSetState } from 'ahooks';
-import styles from './index.less';
+import './index.less';
 
 // 滚动到底部的距离阈值
 const HTRESHOLD = 100;
@@ -30,6 +30,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
     initialListSize,
     autoFullViewPort = false,
     startPage = 1,
+    style,
     ...otherProps
   } = props;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -114,7 +115,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
   return (
     <>
       <div hidden={!showNoData()}>{noData}</div>
-      <div className={styles.loadMore} ref={containerRef} hidden={showNoData()}>
+      <div className={`loadMore alita-listview`} ref={containerRef} hidden={showNoData()}>
         <ListView
           ref={listViewRef}
           initialListSize={getInitialListSize(requestParams[trueAlias.pageSize], initialListSize)}
@@ -138,7 +139,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
             );
           }}
           style={{
-            height: state.height || state.viewHeight,
+            height: height || state.viewHeight,
             overflow: 'auto',
           }}
           pageSize={10}
