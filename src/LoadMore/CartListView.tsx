@@ -53,11 +53,16 @@ const CartListView: FC<CartListViewProps> = forwardRef((props, ref) => {
     },
     getSelectAll: () => state,
     selectItem: (item: any) => {
+      if (singleSelect) {
+        reset();
+      }
       add(item);
       toggle(data.length === Array.from(set).length + 1);
     },
     unSelectItem: (item: any) => {
-      remove(item);
+      if (!singleSelect) {
+        remove(item);
+      }
       toggle(false);
     },
     getListData: () => data,
@@ -75,7 +80,9 @@ const CartListView: FC<CartListViewProps> = forwardRef((props, ref) => {
       toggle(data.length === Array.from(set).length + 1);
     };
     const unSelectItem = (key: any) => {
-      remove(key);
+      if (!singleSelect) {
+        remove(key);
+      }
       toggle(false);
     };
     return renderCartRow(rowData, isSelected, selectItem, unSelectItem);
