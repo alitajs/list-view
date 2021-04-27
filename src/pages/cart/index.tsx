@@ -74,6 +74,7 @@ const IndexPage: FC = () => {
         renderCartRow={row}
         requestParams={req}
         onSelectChange={(selectData: any, isSelectAll: boolean) => {
+          console.log(selectData);
           setSelectAll(isSelectAll);
         }}
         // height={400}
