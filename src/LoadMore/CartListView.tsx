@@ -16,6 +16,7 @@ interface CartListViewProps
   extends Omit<LoadMoreListViewProps, 'renderRow' | 'ref'>,
     Omit<React.ForwardRefExoticComponent<React.RefAttributes<any>>, '$$typeof'> {
   ref: any;
+  singleSelect: boolean;
   renderCartRow: (
     rowData: any,
     isSelected: boolean,
@@ -26,15 +27,18 @@ interface CartListViewProps
 }
 
 const CartListView: FC<CartListViewProps> = forwardRef((props, ref) => {
-  const { renderCartRow, onChange = () => {}, onSelectChange = (a, b) => {}, ...other } = props;
+  const {
+    renderCartRow,
+    onChange = () => {},
+    singleSelect,
+    onSelectChange = (a, b) => {},
+    ...other
+  } = props;
   const [data, setData] = useState([]);
   const [set, { add, has, remove, reset }] = useSet([]);
   const [state, { toggle }] = useToggle(false);
   useEffect(() => {
-    onSelectChange(
-      data.filter(item => has(item)),
-      state,
-    );
+    onSelectChange(data.filter(item => has(item)), state);
   }, [set]);
   const loadMoreList = useRef<LoadMoreListAttributes>(null);
   useImperativeHandle(ref, () => ({
@@ -64,6 +68,9 @@ const CartListView: FC<CartListViewProps> = forwardRef((props, ref) => {
   const row = (rowData: any) => {
     const isSelected = has(rowData);
     const selectItem = (key: any) => {
+      if (singleSelect) {
+        reset();
+      }
       add(key);
       toggle(data.length === Array.from(set).length + 1);
     };

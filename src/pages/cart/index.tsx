@@ -68,6 +68,7 @@ const IndexPage: FC = () => {
     <>
       <SearchBar onSubmit={setSearch} onClear={setSearch} />
       <CartListView
+        singleSelect
         ref={cartList}
         requestFunc={query}
         renderCartRow={row}
