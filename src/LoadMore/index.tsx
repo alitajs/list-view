@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  useImperativeHandle,
-  forwardRef,
-  useRef,
-  useLayoutEffect,
-  useEffect,
-} from 'react';
+import React, { FC, useImperativeHandle, forwardRef, useRef, useEffect } from 'react';
 import { asyncFn, getAliasWithPropsAlias, getInitialListSize, px2hd } from './Utils/index';
 import { ListViewNoData, ListViewLoadMore, ListMoreLoading } from './components';
 import { LoadMoreListViewProps } from './PropType';
@@ -30,7 +23,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
     initialListSize,
     autoFullViewPort = false,
     startPage = 1,
-    style,
+    style = {},
     ...otherProps
   } = props;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -86,7 +79,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
     reloadDataSource: onRefresh,
   }));
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const offsetTop = containerRef.current.getBoundingClientRect().top;
     setState({
       height: state.viewHeight - offsetTop - px2hd(isTabsPage ? 100 : 0),
@@ -115,7 +108,12 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
   return (
     <>
       <div hidden={!showNoData()}>{noData}</div>
-      <div className={`loadMore alita-listview`} ref={containerRef} hidden={showNoData()}>
+      <div
+        style={style.height === '100%' ? { height: '100%' } : {}}
+        className="loadMore alita-listview"
+        ref={containerRef}
+        hidden={showNoData()}
+      >
         <ListView
           ref={listViewRef}
           initialListSize={getInitialListSize(requestParams[trueAlias.pageSize], initialListSize)}
@@ -139,8 +137,9 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
             );
           }}
           style={{
-            height: height || state.viewHeight,
+            height: height || state.height,
             overflow: 'auto',
+            ...style,
           }}
           pageSize={10}
           onEndReached={onLoadMore}
