@@ -25,6 +25,8 @@ export interface LoadMoreListViewProps
   alias?: AliasProps;
   container?: any;
   requestFunc: (params: any) => Promise<any>;
+  onLoadMoreFunc: () => void;
+  onRefreshFunc: () => void;
   requestParams?: object;
   autoFullViewPort?: boolean;
   renderRow: (

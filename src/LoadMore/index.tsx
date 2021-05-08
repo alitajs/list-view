@@ -24,6 +24,8 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
     autoFullViewPort = false,
     startPage = 1,
     style = {},
+    onLoadMoreFunc = () => {},
+    onRefreshFunc = () => {},
     ...otherProps
   } = props;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,12 +69,14 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
     if (!loading && (!loadingMore || !state.autoFullLoadingMore)) {
       statusRef.current = 'loadmore';
       loadMore();
+      onLoadMoreFunc();
     }
   };
 
   const onRefresh = () => {
     statusRef.current = 'loading';
     reload();
+    onRefreshFunc();
   };
 
   useImperativeHandle(ref, () => ({

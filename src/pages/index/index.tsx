@@ -59,9 +59,6 @@ const IndexPage: FC = () => {
               offset: 'abc',
               pageSize: 'pagesize',
             }}
-            style={{
-              height: '100%',
-            }}
             noData={<div style={{ height: '100px', backgroundColor: '#f40' }}>123456</div>}
           />
         </div>
