@@ -1,5 +1,5 @@
-import { AliasProps, Result } from '../PropType';
 import { useLockFn } from 'ahooks';
+import { AliasProps, Result } from '../PropType';
 /**
  * 像素转换
  * @param {Number} px - 750视觉稿像素
@@ -38,7 +38,7 @@ export const getParamsWithAlias = (
         Number(reqParams[trueAlias.offset]) + Number(reqParams[trueAlias.pageSize]);
     }
     if (page) {
-      reqParams[trueAlias.page] = Number(reqParams[trueAlias['page']]) + 1;
+      reqParams[trueAlias.page] = Number(reqParams[trueAlias.page]) + 1;
     }
   } else {
     if (offset) {
@@ -59,7 +59,8 @@ export const asyncFn = (
   startPage = 1,
 ): Promise<Result> => {
   const reqParams = getParamsWithAlias(requestParams, alias, status, startPage);
-  return requestFunc(reqParams);
+  const isRefresh: boolean = status === 'loading';
+  return requestFunc(reqParams, isRefresh);
 };
 
 export const getInitialListSize = (pageSize, initialListSize) => {

@@ -1,32 +1,27 @@
 import React, { FC, useImperativeHandle, forwardRef, useRef, useEffect } from 'react';
 import { ListViewNoData, ListViewLoadMore, ListMoreLoading } from '@/components';
 import { PullToRefresh, ListView } from 'antd-mobile';
-import { useRequest, useSetState } from 'ahooks';
-import { asyncFn, getAliasWithPropsAlias, getInitialListSize, px2hd } from '@/Utils/index';
-import { LoadMoreListViewProps } from './PropType';
+import { useSetState } from 'ahooks';
+import { px2hd } from '@/Utils/index';
+import { DataSourceListAttributes } from './PropType';
 import './index.less';
 
 // 滚动到底部的距离阈值
 const HTRESHOLD = 100;
-
-const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
+const DataSourceList: FC<DataSourceListAttributes> = forwardRef((props, ref) => {
   const {
     height,
-    requestFunc,
-    requestParams = {},
-    alias = {},
-    renderFooter,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    container = '',
-    noData,
-    isTabsPage = false,
-    onChange = () => {},
-    initialListSize,
-    autoFullViewPort = false,
-    startPage = 1,
-    style = {},
+    dataSource = [],
     onLoadMoreFunc = () => {},
     onRefreshFunc = () => {},
+    loading = false,
+    noData,
+    style = {},
+    isTabsPage,
+    initialListSize = 25,
+    renderFooter,
+    noMore = false,
+    loadingMore = false,
     ...otherProps
   } = props;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -42,48 +37,19 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
     }),
   });
 
-  const trueAlias = getAliasWithPropsAlias(alias);
-
-  const requestResult = useRequest(
-    () => asyncFn(requestFunc, requestParams, alias, statusRef.current, startPage),
-    {
-      loadMore: true,
-      ref: containerRef,
-      threshold: HTRESHOLD,
-      formatResult: d => ({
-        total: d[trueAlias.total],
-        list: d[trueAlias.data],
-      }),
-      isNoMore: d => (d ? d.list.length >= d.total : false),
-    },
-  );
-
-  const {
-    data: { list = [] },
-    loading,
-    loadingMore,
-    reload,
-    loadMore,
-    noMore,
-  } = requestResult;
   const onLoadMore = () => {
-    if (!loading && (!loadingMore || !state.autoFullLoadingMore)) {
+    if (!noMore && !loading && (!loadingMore || !state.autoFullLoadingMore)) {
       statusRef.current = 'loadmore';
-      loadMore();
       onLoadMoreFunc();
     }
   };
 
   const onRefresh = () => {
     statusRef.current = 'loading';
-    reload();
     onRefreshFunc();
   };
 
-  useImperativeHandle(ref, () => ({
-    reloadDataSource: onRefresh,
-  }));
-
+  const showNoData = () => !loading && dataSource.length === 0 && !!noData;
   useEffect(() => {
     const offsetTop = containerRef.current.getBoundingClientRect().top;
     setState({
@@ -91,24 +57,9 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
     });
   }, []);
 
-  useEffect(() => {
-    onChange(list);
-    // 已经加载完成 && 不是正在刷新 && 不是初始化 && 数组数量 > 0 && 用户设置了自动填充屏幕 && 有更多数据
-    // 解决ListView初始化数据未占满屏幕无法下拉刷新问题: https://github.com/ant-design/ant-design-mobile/issues/3553
-    if (listViewRef.current && !loading && list.length > 0 && autoFullViewPort && !noMore) {
-      const containerDom = containerRef.current;
-      const listViewDom = listViewRef.current.getInnerViewNode();
-      if (containerDom.clientHeight >= listViewDom.scrollHeight) {
-        onLoadMore();
-        setState({ autoFullLoadingMore: true });
-      } else {
-        setState({ autoFullLoadingMore: false });
-      }
-    }
-    setState({ isInitial: false });
-  }, [JSON.stringify(list)]);
-
-  const showNoData = () => !loading && list.length === 0 && !!noData;
+  useImperativeHandle(ref, () => ({
+    reloadDataSource: onRefresh,
+  }));
 
   return (
     <>
@@ -121,11 +72,11 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
       >
         <ListView
           ref={listViewRef}
-          initialListSize={getInitialListSize(requestParams[trueAlias.pageSize], initialListSize)}
-          dataSource={state.dataSet.cloneWithRows(list)}
+          initialListSize={initialListSize}
+          dataSource={state.dataSet.cloneWithRows(dataSource)}
           renderFooter={() => {
             if (renderFooter) {
-              return renderFooter(noMore, loadingMore, loadMore);
+              return renderFooter(noMore, loadingMore, onLoadMoreFunc);
             }
             if (loading) {
               return <></>;
@@ -172,4 +123,5 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
   );
 });
 
-export default LoadMoreListView;
+export { DataSourceListAttributes };
+export default DataSourceList;
