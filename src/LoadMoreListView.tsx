@@ -84,7 +84,6 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef(
     ref,
   ) => {
     const trueAlias = { ...defaultAlias, ...alias };
-    console.log('ssss');
     const getInitialListSize = () => {
       if (initialListSize) {
         return initialListSize;
