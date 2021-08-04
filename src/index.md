@@ -21,8 +21,8 @@ const IndexPage: FC = () => {
       requestParams={{
         abc: '123',
         token: 'alita',
-        pageSize: 0,
-        offset: 0,
+        pageSize: 10,
+        page: 1,
       }}
     />
   );
@@ -52,21 +52,21 @@ export default IndexPage;
 interface AliasProps {
   data?: string;
   pageSize?: string;
-  offset?: string;
+  page?: string;
   total?: string;
 }
 ```
 
 ### alias 和 requestParams
 
-默认约定请求参数是 `{ pageSize, offset }` ,返回的数据是 `{ data, total }`。如果你的请求参数和返回数据不是按照约定，那你需要手动设置 `alias`。如你的返回数据是 `{ list, count }`，那你需要设置 `alias` 为 `{ data: 'list', total: 'count' }`。如果你的请求参数，除了 `pageSize` 和 `offset` 之外，还有其它的参数，那你需要设置 `requestParams`。`requestParams` 中的 `pageSize` 和 `offset` 会被组件接管和覆盖，在加载更多时，自动产生变化，你无需理会。
+默认约定请求参数是 `{ pageSize, page }` ,返回的数据是 `{ data, total }`。如果你的请求参数和返回数据不是按照约定，那你需要手动设置 `alias`。如你的返回数据是 `{ list, count }`，那你需要设置 `alias` 为 `{ data: 'list', total: 'count' }`。如果你的请求参数，除了 `pageSize` 和 `page` 之外，还有其它的参数，那你需要设置 `requestParams`。`requestParams` 中的 `pageSize` 和 `page` 会被组件接管和覆盖，在加载更多时，自动产生变化，你无需理会。
 
 ### 约定出入参
 
 ```ts | pure
 interface Params {
   pageSize: number;
-  offset: number;
+  page: number;
 }
 interface Result {
   total: number;
@@ -81,7 +81,7 @@ interface Result {
 ```ts | pure
 interface Params {
   pageSize: number;
-  offset1: number;
+  page1: number;
   type: string;
   search: string;
 }
@@ -95,7 +95,7 @@ interface Result {
 
 ```html | pure
 <LoadMoreListView requestParams={{ type: 'alita', search: 'some search key', }} alias={{ total:
-'count', offset: 'offset1' }} />
+'count', page: 'page1' }} />
 ```
 
 ### requestFunc
