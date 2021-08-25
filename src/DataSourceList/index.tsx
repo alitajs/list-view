@@ -2,7 +2,7 @@ import React, { FC, useImperativeHandle, forwardRef, useRef, useEffect } from 'r
 import { ListViewNoData, ListViewLoadMore, ListMoreLoading } from '@/components';
 import { PullToRefresh, ListView } from 'antd-mobile';
 import { useSetState } from 'ahooks';
-import { px2hd } from '@/Utils/index';
+import { px2hd, isBrowser } from '@/Utils/index';
 import { DataSourceListAttributes } from './PropType';
 import './index.less';
 
@@ -29,8 +29,8 @@ const DataSourceList: FC<DataSourceListAttributes> = forwardRef((props, ref) => 
   const statusRef = useRef<'loading' | 'loadmore'>('loading');
   const [state, setState] = useSetState({
     autoFullLoadingMore: false,
-    viewHeight: document.documentElement.clientHeight,
-    height: document.documentElement.clientHeight,
+    // viewHeight: document.documentElement.clientHeight,
+    // height: document.documentElement.clientHeight,
     isInitial: true,
     dataSet: new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
@@ -51,10 +51,16 @@ const DataSourceList: FC<DataSourceListAttributes> = forwardRef((props, ref) => 
 
   const showNoData = () => !loading && dataSource.length === 0 && !!noData;
   useEffect(() => {
-    const offsetTop = containerRef.current.getBoundingClientRect().top;
-    setState({
-      height: state.viewHeight - offsetTop - px2hd(isTabsPage ? 100 : 0),
-    });
+    if (isBrowser()) {
+      const offsetTop = containerRef.current.getBoundingClientRect().top;
+      setState({
+        height: document.documentElement.clientHeight - offsetTop - px2hd(isTabsPage ? 100 : 0),
+      });
+    }
+    // const offsetTop = containerRef.current.getBoundingClientRect().top;
+    // setState({
+    //   height: state.viewHeight - offsetTop - px2hd(isTabsPage ? 100 : 0),
+    // });
   }, []);
 
   useImperativeHandle(ref, () => ({

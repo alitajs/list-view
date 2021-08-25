@@ -20,13 +20,13 @@ export interface LoadMoreListViewProps
   extends Omit<ListViewProps, 'renderFooter' | 'onEndReached' | 'dataSource'>,
     Omit<React.ForwardRefExoticComponent<React.RefAttributes<any>>, '$$typeof'> {
   ref?: any;
-  height?: string;
+  height?: string | number;
   isTabsPage?: boolean;
   alias?: AliasProps;
   container?: any;
   requestFunc: (params: any) => Promise<any>;
-  onLoadMoreFunc: () => void;
-  onRefreshFunc: () => void;
+  onLoadMoreFunc?: () => void;
+  onRefreshFunc?: () => void;
   requestParams?: object;
   autoFullViewPort?: boolean;
   renderRow: (

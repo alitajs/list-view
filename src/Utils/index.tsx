@@ -1,14 +1,26 @@
 import { useLockFn } from 'ahooks';
 import { AliasProps, Result } from '../PropType';
+
+/**
+ * whether in browser env
+ */
+export const isBrowser = (): boolean =>
+  typeof window !== 'undefined' &&
+  typeof window.document !== 'undefined' &&
+  typeof window.document.createElement !== 'undefined';
+
 /**
  * 像素转换
  * @param {Number} px - 750视觉稿像素
  * @return {Number} 屏幕上实际像素
  */
 export const px2hd = (px: number) => {
-  const ONE_REM = parseInt(document.documentElement.style.fontSize, 10) || 100;
-  const SCALE = ONE_REM / 100;
-  return Number((px * SCALE).toFixed(1));
+  if (isBrowser()) {
+    const ONE_REM = parseInt(document.documentElement.style.fontSize, 10) || 100;
+    const SCALE = ONE_REM / 100;
+    return Number((px * SCALE).toFixed(1));
+  }
+  return Number(px.toFixed(1));
 };
 
 export const getAliasWithPropsAlias = (propsAlias: object) => {

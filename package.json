@@ -1,11 +1,10 @@
 {
     "name": "@alitajs/list-view",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "",
     "main": "./dist/index.js",
-    "typings": "./dist/src",
+    "typings": "./dist/src/index.d.ts",
     "module": "./dist/index.esm.js",
-    "unpkg": "./dist/index.umd.js",
     "scripts": {
         "start": "alita dev",
         "start-doc": "cross-env CUSTOM_DEV=true alita dev",
@@ -19,7 +18,7 @@
         "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
         "lint:prettier": "check-prettier lint",
         "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
-        "publish": "npm publish --access public",
+        "publish": "npm publish --access public --next",
         "prepublishOnly": "father-build",
         "prettier": "prettier -c --write \"**/*\"",
         "format-imports": "cross-env import-sort --write '**/*.{js,jsx,ts,tsx}'",
