@@ -86,8 +86,18 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
     onRefreshFunc();
   };
 
+  const onReloadheight = () => {
+    if (isBrowser()) {
+      const offsetTop = containerRef.current.getBoundingClientRect().top;
+      setState({
+        height: document.documentElement.clientHeight - offsetTop - px2hd(isTabsPage ? 100 : 0),
+      });
+    }
+  };
+
   useImperativeHandle(ref, () => ({
     reloadDataSource: onRefresh,
+    reloadheight: onReloadheight,
   }));
 
   useEffect(() => {

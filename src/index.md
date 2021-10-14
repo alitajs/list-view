@@ -46,6 +46,13 @@ export default IndexPage;
 | renderFooter | 重新渲染页脚，会传入三个参数，表示列表页面的当前状态。 | ( noMore, loadingMore, loadMore?) => React.ReactElement | '' | 否 |
 | 其他 ListView 参数 | 能接收 ListView 的其他参数，请注意不要设置 'onEndReached'、 'pullToRefresh'、 'dataSource' | 无 | 否 |
 
+## ref API
+
+| 参数             | 说明               | 类型 | 默认值 | 是否必填 |
+| ---------------- | ------------------ | ---- | ------ | -------- |
+| reloadDataSource | 重新加载数据       | -    | -      | 否       |
+| reloadheight     | 重新自适应列表高度 | -    | -      | 否       |
+
 ### AliasProps
 
 ```ts | pure
