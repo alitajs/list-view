@@ -1,6 +1,6 @@
 {
     "name": "@alitajs/list-view",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "description": "",
     "main": "./dist/index.js",
     "typings": "./dist/src/index.d.ts",
@@ -55,7 +55,7 @@
         "cross-env": "^6.0.3",
         "eslint": "6.8.0",
         "eslint-plugin-eslint-comments": "^3.1.2",
-        "father-build": "^1.18.6",
+        "father-build": "1.18.6",
         "import-sort-cli": "^6.0.0",
         "import-sort-parser-babylon": "^6.0.0",
         "import-sort-parser-typescript": "^6.0.0",
@@ -68,8 +68,8 @@
         "@babel/plugin-syntax-class-properties": "^7.12.13"
     },
     "dependencies": {
-        "ahooks": "^2.9.6",
-        "lodash": "^4.17.15"
+        "ahooks": "2.9.6",
+        "lodash": "4.17.15"
     },
     "peerDependencies": {
         "antd-mobile": "^2.3.1",

@@ -1,7 +1,7 @@
 import React, { FC, useImperativeHandle, forwardRef, useRef, useEffect } from 'react';
-import { ListViewNoData, ListViewLoadMore, ListMoreLoading } from '@/components';
 import { PullToRefresh, ListView } from 'antd-mobile';
 import { useRequest, useSetState } from 'ahooks';
+import { ListViewNoData, ListViewLoadMore, ListMoreLoading } from '@/components';
 import {
   asyncFn,
   getAliasWithPropsAlias,
@@ -65,7 +65,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
   );
 
   const {
-    data: { list = [] },
+    data: { list = [] } = {},
     loading,
     loadingMore,
     reload,
