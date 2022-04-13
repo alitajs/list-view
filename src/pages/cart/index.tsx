@@ -1,5 +1,5 @@
 import React, { FC, useState, useRef } from 'react';
-import { List, SearchBar, Button } from 'antd-mobile';
+import { List, SearchBar, Button } from 'antd-mobile-v2';
 import { query } from '@/services/api';
 import Logo from '@/assets/logo.png';
 import CartListView, { CartListAttributes } from '@/LoadMore/CartListView';

@@ -1,5 +1,5 @@
 import React, { FC, useState, useImperativeHandle, forwardRef, useRef, useEffect } from 'react';
-import { useSet, useToggle } from 'ahooks';
+import { useSet, useToggle } from 'ahooks-v2';
 import LoadMoreListView from './index';
 import { LoadMoreListViewProps, LoadMoreListAttributes } from './PropType';
 

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { List } from 'antd-mobile';
+import { List } from 'antd-mobile-v2';
 import LoadMoreListView from '@alitajs/list-view';
 import Logo from './assets/logo.png';
 

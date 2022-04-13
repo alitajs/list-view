@@ -1,3 +1,4 @@
+import 'antd-mobile-v2/dist/antd-mobile.less';
 import LoadMoreListView from './LoadMore';
 import { LoadMoreListAttributes } from './LoadMore/PropType';
 import CartListView, { CartListAttributes } from './LoadMore/CartListView';

@@ -1,5 +1,4 @@
-import { useLockFn } from 'ahooks';
-import { AliasProps, Result } from '../PropType';
+import { AliasProps, Result } from '../LoadMore/PropType';
 
 /**
  * whether in browser env

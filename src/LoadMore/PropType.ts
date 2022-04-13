@@ -1,4 +1,4 @@
-import { ListViewProps } from 'antd-mobile/es/list-view';
+import { ListViewProps } from 'antd-mobile-v2/es/list-view';
 
 export interface Result {
   total: number;

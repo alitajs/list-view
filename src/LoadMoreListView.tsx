@@ -1,7 +1,7 @@
 import React, { FC, useState, useImperativeHandle, forwardRef, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { PullToRefresh, ListView } from 'antd-mobile';
-import { ListViewProps } from 'antd-mobile/es/list-view';
+import { PullToRefresh, ListView } from 'antd-mobile-v2';
+import { ListViewProps } from 'antd-mobile-v2/es/list-view';
 import { useLoadMore } from '@umijs/hooks';
 
 const ONE_REM = parseInt(document.documentElement.style.fontSize, 10) || 100;

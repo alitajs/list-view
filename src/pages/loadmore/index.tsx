@@ -1,5 +1,5 @@
 import React, { FC, useState, useRef } from 'react';
-import { List, SearchBar, Button } from 'antd-mobile';
+import { List, SearchBar, Button } from 'antd-mobile-v2';
 import { loadmore } from '@/services/api';
 import LoadMoreListView from '@/LoadMore';
 import { LoadMoreListAttributes } from '@/LoadMore/PropType';

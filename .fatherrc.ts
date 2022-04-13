@@ -1,3 +1,4 @@
+// import commonjs from 'rollup-plugin-commonjs'
 export default {
   esm: {
     type: 'rollup',
@@ -18,14 +19,19 @@ export default {
   //     'isFragment',
   //   ]
   // },
-  extraBabelPlugins: [
-    [
-      'babel-plugin-import',
-      {
-        libraryName: 'antd-mobile',
-        libraryDirectory: 'es',
-        style: true,
-      },
-    ],
-  ],
+  // extraBabelPlugins: [
+  //   [
+  //     'babel-plugin-import',
+  //     {
+  //       libraryName: 'antd-mobile',
+  //       libraryDirectory: 'es',
+  //       style: true,
+  //     },
+  //   ],
+  //   // commonjs({
+  //   //   include: [
+  //   //     'node_modules/js-cookie/**'
+  //   //   ]
+  //   // })
+  // ],
 };
