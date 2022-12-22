@@ -63,6 +63,39 @@ export const getParamsWithAlias = (
   return reqParams;
 };
 
+export const restorePreRequestParams = (
+  requestParams: object,
+  userAlias: AliasProps,
+  status: 'loading' | 'loadmore' | string,
+  startPage = 1,
+) => {
+  const reqParams = Object.assign(requestParams);
+  const trueAlias = getAliasWithPropsAlias(userAlias);
+  const offset = reqParams[trueAlias.offset];
+  const page = reqParams[trueAlias.page];
+  if (status === 'loadmore') {
+    if (
+      offset &&
+      Number(reqParams[trueAlias.offset]) - Number(reqParams[trueAlias.pageSize]) >
+        Number(reqParams[trueAlias.pageSize])
+    ) {
+      reqParams[trueAlias.offset] =
+        Number(reqParams[trueAlias.offset]) - Number(reqParams[trueAlias.pageSize]);
+    }
+    if (page && reqParams[trueAlias.page] > startPage) {
+      reqParams[trueAlias.page] = Number(reqParams[trueAlias.page]) - 1;
+    }
+  } else {
+    if (offset) {
+      reqParams[trueAlias.offset] = startPage;
+    }
+    if (page) {
+      reqParams[trueAlias.page] = startPage;
+    }
+  }
+  return reqParams;
+};
+
 export const asyncFn = (
   requestFunc,
   requestParams,

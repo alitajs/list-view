@@ -8,6 +8,7 @@ import {
   getInitialListSize,
   px2hd,
   isBrowser,
+  restorePreRequestParams,
 } from '@/Utils/index';
 import { LoadMoreListViewProps } from './PropType';
 import './index.less';
@@ -37,7 +38,7 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
   } = props;
   const containerRef = useRef<HTMLDivElement>(null);
   const listViewRef = useRef(null);
-  const statusRef = useRef<'loading' | 'loadmore'>('loading');
+  const statusRef = useRef<'loading' | 'loadmore' | 'init' | 'end'>('init');
   const [state, setState] = useSetState({
     autoFullLoadingMore: false,
     // viewHeight: document.documentElement.clientHeight,
@@ -61,6 +62,14 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
         list: d[trueAlias.data],
       }),
       isNoMore: d => (d ? d.list.length >= d.total : false),
+      onSuccess() {
+        console.log('onSuccess');
+        statusRef.current = 'end';
+      },
+      onError() {
+        restorePreRequestParams(requestParams, alias, statusRef.current, startPage);
+        statusRef.current = 'end';
+      },
     },
   );
 
@@ -73,6 +82,9 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
     noMore,
   } = requestResult;
   const onLoadMore = () => {
+    if (statusRef.current !== 'end') {
+      return;
+    }
     if (!loading && (!loadingMore || !state.autoFullLoadingMore)) {
       statusRef.current = 'loadmore';
       loadMore();
@@ -81,9 +93,11 @@ const LoadMoreListView: FC<LoadMoreListViewProps> = forwardRef((props, ref) => {
   };
 
   const onRefresh = () => {
-    statusRef.current = 'loading';
-    reload();
-    onRefreshFunc();
+    if (['init', 'end'].includes(statusRef.current)) {
+      statusRef.current = 'loading';
+      reload();
+      onRefreshFunc();
+    }
   };
 
   const onReloadHeight = () => {
