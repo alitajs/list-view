@@ -73,7 +73,7 @@
     "dependencies": {
         "ahooks-v2": "^2.10.15",
         "antd-mobile-v2": "^2.3.4",
-        "lodash": "4.17.15"
+        "lodash": "4.17.21"
     },
     "peerDependencies": {
         "react": "^16.8.5"
